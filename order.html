@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Products</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+#orderCount, #commissionEarned {
+  font-size: 24px;
+  margin-top: 20px;
+}
+
+#orderButton, #resetButton {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#orderButton:hover, #resetButton:hover {
+  background-color: #0056b3;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  border-radius: 5px;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#confirmButton {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#confirmButton:hover {
+  background-color: #45a049;
+}
+
+    </style>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Order Products</title>
+ <link rel="stylesheet" href="styles.css">
+ </head>
+ <body>
+    <div class="container">
+        <h2>Order Products</h2>
+        <p>Account Balance: $<span id="accountBalance">20.00</span></p>
+        <button id="orderButton">Order</button>
+        <button id="resetButton">Reset</button>
+        <div id="orderCount">0</div>
+        <div id="commissionEarned">Commission Earned: $<span id="commissionAmount">0.00</span></div>
+      </div>
+    
+      <div class="modal" id="myModal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Confirm your order?</p>
+          <button id="confirmButton">Submit</button>
+        </div>
+      </div>
+    
+   <script src="script.js"></script>
+ </body>
+ </html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const orderButton = document.getElementById('orderButton');
+  const resetButton = document.getElementById('resetButton');
+  const orderCount = document.getElementById('orderCount');
+  const accountBalance = document.getElementById('accountBalance');
+  const commissionEarned = document.getElementById('commissionEarned');
+  const modal = document.getElementById('myModal');
+  const confirmButton = document.getElementById('confirmButton');
+  const closeButton = document.getElementsByClassName('close')[0];
+  let itemCount = 0;
+  let commissionAmount = 0;
+
+  orderButton.addEventListener('click', function() {
+    if (itemCount < 10) {
+      const currentBalance = parseFloat(accountBalance.textContent);
+      if (currentBalance >= 19) {
+        itemCount++;
+        orderCount.textContent = itemCount;
+        modal.style.display = 'block'; // Show modal
+    
+
+      
+      } else {
+        alert('Insufficient funds! Minimum $19 required to place an order.');
+      }
+    } else {
+      alert('You have reached the maximum limit of 10 items per day.');
+    }
+
+
+// Checking if the order can be placed
+if (canPlaceOrder(accountBalance, orderAmount)) {
+    console.log("Order can be placed.");
+    
+    // Place your order logic here
+} else {
+    console.log("Insufficient funds to place the order.");
+}
+    
+    // Check if all 10 items have been ordered
+    if (itemCount === 10) {
+      orderButton.disabled = true; // Disable order button
+    }
+  });
+
+  resetButton.addEventListener('click', function() {
+    itemCount = 0;
+    orderCount.textContent = itemCount;
+    orderButton.disabled = false; // Enable order button
+  });
+
+  closeButton.onclick = function() {
+    modal.style.display = 'none'; // Hide modal
+  }
+
+  confirmButton.onclick = function() {
+    // Process order and commission
+    commissionAmount += 0.57; // Calculate 3% commission of $19
+    commissionEarned.textContent = '$' + commissionAmount.toFixed(2);
+    accountBalance.textContent = '' + (parseFloat(accountBalance.textContent) + parseFloat(commissionEarned.textContent.substr(1))).toFixed(2); // Add commission to account balance
+    alert('Order submitted successfully!');
+    modal.style.display = 'none'; // Hide modal
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none'; // Hide modal when clicked outside
+    }
+  }
+});
+
+
+</script>
+</body>
+</html>
